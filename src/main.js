@@ -1,20 +1,39 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
+let loading;
+
 function createWindow() {
-  const win = new BrowserWindow({
+  const main = new BrowserWindow({
     width: 800,
     height: 600,
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, '/src/preload.js')
     }
-  })
+  });
 
-  win.loadFile('./pages/index.html')
+  main.loadFile('./pages/index.html');
+  main.once('ready-to-show', () => {
+    loading.destroy();
+    main.show();
+  });
 }
 
-app.whenReady().then(() => {
-  createWindow()
+function createLoadingScreen() {
+  loading = new BrowserWindow({
+    width: 800, 
+    height: 600,
+    show: true
+  });
+
+  loading.loadFile('./pages/splash_screen.html');
+  setTimeout(() => createWindow(), 3000);
+}
+
+app.whenReady().then(() => { 
+  createLoadingScreen();
+  //createWindow();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
