@@ -1,0 +1,43 @@
+.column header {
+    margin: 2rem 0;
+}
+
+.column.alarms {
+    border-right: 1px solid black;
+}
+
+.column button {
+    border: 1px solid #000000;
+    border-radius: 20px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 3.2rem;
+    padding: .5rem 1.4rem;
+    
+    color: #000000;
+    background: none;
+    cursor: pointer;
+}
+
+.rectangle span {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    background: rgb(187, 182, 53, .6);
+    border-radius: 15px;
+
+    padding: .7rem;
+    margin: 2rem 1rem;
+
+    cursor: pointer;
+}
+
+.rectangle span h4 {
+    font-size: 2rem;
+}
+
+.rectangle a, .rectangle p {
+    opacity: .8;
+}

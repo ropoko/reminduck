@@ -1,0 +1,15 @@
+{
+  "name": "reminduck",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron src/main.js"
+  },
+  "keywords": [],
+  "author": "Ropoko",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^12.0.4"
+  }
+}
