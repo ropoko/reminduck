@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creating alarm</title>
+    <title>Reminduck | Creating alarm</title>
     <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/pages/create_alarm.css">
 </head>
+
 <body>
     <a href="./index.html">
         <img id="return-arrow" src="../img/back-arrow.png" alt="back">
     </a>
-    <div style="margin-top:2rem;">
-        <h1>create alarm</h1>
+    <div class="container-alarm">
+        <h1>Create alarm</h1>
+        <form id="create_alarm" action="../create_alarm.js">
+            <input id="alarm_name" type="text" placeholder="Waking up ..." />
+
+            <input id="alarm_time" type="time" />
+            <button id="submit" type="submit">Save</button>
+        </form>
     </div>
     <img id="logo" src="../img/duck_icon.png" alt="duck_icon">
+    <script src="../create_alarm.js"></script>
 </body>
+
 </html>
