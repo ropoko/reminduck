@@ -9,7 +9,7 @@ function createWindow() {
     height: 600,
     show: false,
     webPreferences: {
-      preload: path.join(__dirname, '/src/preload.js')
+      preload: path.join(__dirname, '/preload.js')
     }
   });
 
@@ -22,7 +22,7 @@ function createWindow() {
 
 function createLoadingScreen() {
   loading = new BrowserWindow({
-    width: 800, 
+    width: 800,
     height: 600,
     show: true
   });
@@ -31,7 +31,7 @@ function createLoadingScreen() {
   setTimeout(() => createWindow(), 3000);
 }
 
-app.whenReady().then(() => { 
+app.whenReady().then(() => {
   createLoadingScreen();
   //createWindow();
 
@@ -40,10 +40,10 @@ app.whenReady().then(() => {
       createWindow()
     }
   })
-})
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
