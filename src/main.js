@@ -1,30 +1,38 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
+const Store = require('electron-store');
+const store = new Store();
+
+let mainWin;
 let loading;
 
 function createWindow() {
-  const main = new BrowserWindow({
+  mainWin = new BrowserWindow({
     width: 800,
     height: 600,
     show: false,
     webPreferences: {
-      preload: path.join(__dirname, '/preload.js')
+      preload: path.join(__dirname, '/preload.js'),
+      nodeIntegration: true,
+      contextIsolation: false
     }
   });
 
-  main.loadFile('./pages/index.html');
-  main.once('ready-to-show', () => {
+  //main.removeMenu();
+  mainWin.loadFile('./pages/index.html');
+  mainWin.once('ready-to-show', () => {
     loading.destroy();
-    main.show();
+    mainWin.show();
   });
 }
 
 function createLoadingScreen() {
   loading = new BrowserWindow({
-    width: 800,
-    height: 600,
-    show: true
+    width: 500,
+    height: 180,
+    show: true,
+    frame: false
   });
 
   loading.loadFile('./pages/splash_screen.html');
@@ -33,7 +41,6 @@ function createLoadingScreen() {
 
 app.whenReady().then(() => {
   createLoadingScreen();
-  //createWindow();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -46,4 +53,15 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+});
+
+ipcMain.on('submitForm', async (event, alarm) => {
+  let key = 'alarm_' + alarm.id;
+
+  store.set(key, alarm.id);
+  store.set(key + '.alarm_name', alarm.name);
+  store.set(key + '.alarm_time', alarm.time);
+  store.set(key + '.alarm_weekdays', alarm.weekdays);
+
+  mainWin.webContents.send('get_last_id', alarm.id);
 });
