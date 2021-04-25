@@ -2,11 +2,11 @@ const ipcRenderer = require('electron').ipcRenderer;
 const Store = require('electron-store');
 const store = new Store();
 
-let Alarm = () => {
+let Alarm = (title, time) => {
     let newElement = `
         <section class="rectangle alarms_created">
             <span onclick="location.href='./create_alarm.html'">
-                <h4>Title</h4>
+                <h4>${title}</h4>
                     <div class="weekdays">
                         <a href="#">S</a>
                         <a href="#">M</a>
@@ -16,7 +16,7 @@ let Alarm = () => {
                         <a href="#">F</a>
                         <a href="#">S</a>
                     </div>
-                <h4>06:00</h4>
+                <h4>${time}</h4>
             </span>
         </section>
     `;
@@ -28,13 +28,16 @@ function getAlarm() {
     let column_alarms = document.getElementsByClassName('column alarms')[0];
     let alarms = column_alarms.getElementsByTagName('main')[0];
     
-    let element = Alarm();
+    for (let i = 0; i <= store.get('LAST_ID'); i++) {
 
-    let range = document.createRange();
-    range.selectNode(alarms);
+        let element = Alarm(store.get(`alarm_${i}.alarm_name`), store.get(`alarm_${i}.alarm_time`));
 
-    var documentFragment = range.createContextualFragment(element);
-    alarms.appendChild(documentFragment);
+        let range = document.createRange();
+        range.selectNode(alarms);
+
+        var documentFragment = range.createContextualFragment(element);
+        alarms.appendChild(documentFragment);
+    }
 }
 
 window.onload = () => {
