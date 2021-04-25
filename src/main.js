@@ -1,11 +1,17 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
+const app_express = require('./server.js');
+
 const Store = require('electron-store');
 const store = new Store();
 
 let mainWin;
 let loading;
+
+function serverInit() {
+  app_express.listen(3000);
+}
 
 function createWindow() {
   mainWin = new BrowserWindow({
@@ -20,7 +26,7 @@ function createWindow() {
   });
 
   //main.removeMenu();
-  mainWin.loadFile('./pages/index.html');
+  mainWin.loadURL('http://localhost:3000/');
   mainWin.once('ready-to-show', () => {
     loading.destroy();
     mainWin.show();
@@ -35,11 +41,18 @@ function createLoadingScreen() {
     frame: false
   });
 
-  loading.loadFile('./pages/splash_screen.html');
-  setTimeout(() => createWindow(), 3000);
+  setTimeout(() => {
+    loading.loadURL('http://localhost:3000/splash_screen/');
+    loading.show();
+    createWindow();
+  }, 4000)
+
+  //setTimeout(() => createWindow(), 3000);
+  //createWindow();
 }
 
 app.whenReady().then(() => {
+  serverInit();
   createLoadingScreen();
 
   app.on('activate', () => {
@@ -63,5 +76,5 @@ ipcMain.on('submitForm', async (event, alarm) => {
   store.set(key + '.alarm_time', alarm.time);
   store.set(key + '.alarm_weekdays', alarm.weekdays);
 
-  mainWin.webContents.send('get_last_id', alarm.id);
+  await mainWin.webContents.send('get_last_id', alarm.id);
 });
