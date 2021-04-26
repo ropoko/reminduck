@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>Reminduck</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="../styles/global.css">
-    <link rel="stylesheet" href="../styles/pages/index.css">
+    <link rel="stylesheet" href="/styles/global.css">
+    <link rel="stylesheet" href="/styles/views/index.css">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -19,9 +19,26 @@
                 <h1>Alarms</h1>
             </header>
             <main>
-                <a href="./create_alarm.html">
+                <a href="/create_alarm">
                     <button type="button" class="create">+</button>
                 </a>
+                <% alarms.forEach(function(a) { %>
+                    <section class="rectangle alarms_created">
+                        <span onclick="location.href='/create_alarm'">
+                            <h4> <%- a.name %> </h4>
+                            <div class="weekdays">
+                                <a href="#">S</a>
+                                <a href="#">M</a>
+                                <a href="#">T</a>
+                                <a href="#">W</a>
+                                <a href="#">T</a>
+                                <a href="#">F</a>
+                                <a href="#">S</a>
+                            </div>
+                            <h4> <%= a.time %> </h4>
+                        </span>
+                    </section>
+                <% }); %>
             </main>
         </div>
         <div class="column reminders">
@@ -29,11 +46,11 @@
                 <h1> Reminders </h1>
             </header>
             <main>
-                <a href="./create_reminder.html">
+                <a href="/create_reminder">
                     <button type="button" class="create">+</button>
                 </a>
                 <section class="rectangle reminders_created">
-                    <span onclick="location.href='./create_reminder.html'">
+                    <span onclick="location.href='/create_reminder'">
                         <h4>Title</h4>
                         <p> Lorem ipsum dolor sit amet ... </p>
                         <h4>07:00</h4>
@@ -42,9 +59,9 @@
             </main>
         </div>
     </div>
-    <img id="logo" src="../img/duck_icon.png" alt="duck_icon">
-    <script src="../js/alarm.js"></script>
-    <script src="../js/reminder.js"></script>
+    <img id="logo" src="/img/duck_icon.png" alt="duck_icon">
+    <script src="/js/alarm.js"></script>
+    <script src="/js/reminder.js"></script>
 </body>
 
 </html>

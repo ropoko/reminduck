@@ -1,22 +1,56 @@
 {
   "name": "reminduck",
   "version": "1.0.0",
-  "description": "",
+  "description": "tesde de aplicativo reminduck",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron src/main.js"
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "keywords": [],
   "author": "Ropoko",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^12.0.4",
-    "electron-builder": "^22.10.5"
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "electron": "^12.0.4"
   },
   "dependencies": {
     "ejs": "^3.1.6",
     "ejs-electron": "^2.1.1",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.0",
     "express": "^4.17.1"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "reminduck"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }

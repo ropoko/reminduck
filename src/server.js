@@ -9,5 +9,7 @@ app_express
     .set('view engine', 'ejs')
     .get('/', pages.index)
     .get('/splash_screen', pages.splash_screen)
+    .get('/create_alarm', pages.create_alarm)
+    .get('/create_reminder', pages.create_reminder)
 
 module.exports = app_express;
