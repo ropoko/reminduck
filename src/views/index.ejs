@@ -25,7 +25,9 @@
                 <% alarms.forEach(function(a) { %>
                     <section class="rectangle alarms_created">
                         <span onclick="location.href='/create_alarm'">
-                            <h4> <%- a.name %> </h4>
+                            <h4>
+                                <%- a.name %>
+                            </h4>
                             <div class="weekdays">
                                 <a href="#">S</a>
                                 <a href="#">M</a>
@@ -35,7 +37,9 @@
                                 <a href="#">F</a>
                                 <a href="#">S</a>
                             </div>
-                            <h4> <%= a.time %> </h4>
+                            <h4>
+                                <%= a.time %>
+                            </h4>
                         </span>
                     </section>
                 <% }); %>
@@ -50,18 +54,20 @@
                     <button type="button" class="create">+</button>
                 </a>
                 <section class="rectangle reminders_created">
-                    <span onclick="location.href='/create_reminder'">
-                        <h4>Title</h4>
-                        <p> Lorem ipsum dolor sit amet ... </p>
-                        <h4>07:00</h4>
-                    </span>
+                    <% reminders.forEach(function(r) { %>
+                        <span onclick="location.href='/create_reminder'">
+                            <h4> <%= r.name %> </h4>
+                            <p> <%= r.text %> </p>
+                            <h4> <%= r.time %> </h4>
+                        </span>
+                    <% }); %>
                 </section>
             </main>
         </div>
     </div>
     <img id="logo" src="/img/duck_icon.png" alt="duck_icon">
-    <script src="/js/alarm.js"></script>
     <script src="/js/reminder.js"></script>
+    <script src="/js/alarm.js"></script>
 </body>
 
 </html>

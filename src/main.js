@@ -68,7 +68,7 @@ app.on('window-all-closed', () => {
   }
 });
 
-ipcMain.on('submitForm', async (event, alarm) => {
+ipcMain.on('submitForm_alarm', async (event, alarm) => {
   let key = 'alarm_' + alarm.id;
 
   store.set(key, alarm.id);
@@ -76,5 +76,16 @@ ipcMain.on('submitForm', async (event, alarm) => {
   store.set(key + '.alarm_time', alarm.time);
   store.set(key + '.alarm_weekdays', alarm.weekdays);
 
-  await mainWin.webContents.send('get_last_id', alarm.id);
+  await mainWin.webContents.send('get_last_id_alarm', alarm.id);
+});
+
+ipcMain.on('submitForm_reminder', async (event, reminder) => {
+  let key = 'reminder_' + reminder.id;
+
+  store.set(key, reminder.id);
+  store.set(key + '.reminder_name', reminder.name);
+  store.set(key + '.reminder_time', reminder.time);
+  store.set(key + '.reminder_text', reminder.text);
+
+  await mainWin.webContents.send('get_last_id_reminder', reminder.id);
 });

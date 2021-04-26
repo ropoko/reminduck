@@ -8,8 +8,9 @@ module.exports = {
 
     index(req, res) {
         let alarms = [];
+        let reminders = [];
 
-        for (let i = 0; i <= store.get('LAST_ID'); i++) {
+        for (let i = 0; i <= store.get('LAST_ID_AlARM'); i++) {
             alarm = {
                 name: store.get(`alarm_${i}.alarm_name`),
                 time: store.get(`alarm_${i}.alarm_time`),
@@ -19,7 +20,20 @@ module.exports = {
             alarms.push(alarm);
         }
 
-        return res.render('index', { alarms });
+        for (let i = 0; i <= store.get('LAST_ID_REMINDER'); i++) {
+            reminder = {
+                name: store.get(`reminder${i}.reminder_name`), 
+                time: store.get(`reminder${i}.reminder_time`),
+                text: store.get(`reminder${i}.reminder_text`)
+            };
+    
+            reminders.push(reminder);
+        }
+
+        console.log(alarms);
+        console.log(reminders);
+
+        return res.render('index', { alarms, reminders });
     },
 
     create_alarm(req, res) {
