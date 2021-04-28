@@ -45,7 +45,7 @@ function createLoadingScreen() {
     loading.loadURL('http://localhost:3000/splash_screen/');
     loading.show();
     createWindow();
-  }, 4000)
+  }, 1000)
 
   //setTimeout(() => createWindow(), 3000);
   //createWindow();
@@ -68,7 +68,7 @@ app.on('window-all-closed', () => {
   }
 });
 
-ipcMain.on('submitForm_alarm', async (event, alarm) => {
+ipcMain.on('save_alarm', async (event, alarm) => {
   let key = 'alarm_' + alarm.id;
 
   store.set(key, alarm.id);
@@ -79,7 +79,7 @@ ipcMain.on('submitForm_alarm', async (event, alarm) => {
   await mainWin.webContents.send('get_last_id_alarm', alarm.id);
 });
 
-ipcMain.on('submitForm_reminder', async (event, reminder) => {
+ipcMain.on('save_reminder', async (event, reminder) => {
   let key = 'reminder_' + reminder.id;
 
   store.set(key, reminder.id);
