@@ -99,7 +99,6 @@ function createWindow_reminder() {
 }
 
 function render(newTray = tray) {
-    console.log('hi');
     let storedAlarm = [];
     let storedReminder = [];
 
@@ -109,8 +108,8 @@ function render(newTray = tray) {
     if (store.get('lastID_alarm') !== undefined) {
         for (let i = 0; i <= store.get('lastID_alarm'); i++) {
             let alarm = store.get(`alarm_${i}`);
+            alarm['weekdays'] = JSON.parse(store.get(`alarm_${i}.weekdays`));
             storedAlarm.push(alarm);
-            console.log(storedAlarm)
         }
 
         items_alarms = storedAlarm.map(({ name, time, weekdays }) => ({
@@ -120,7 +119,10 @@ function render(newTray = tray) {
                     label: `time: ${time}`
                 },
                 {
-                    label: `weekdays: ${weekdays}`
+                    label: 'weekdays',
+                    submenu: weekdays.map((w) => ({
+                        label: w
+                    }))
                 }
             ]
         }));
@@ -129,8 +131,8 @@ function render(newTray = tray) {
     if (store.get('lastID_reminder') !== undefined) {
         for (let i = 0; i <= store.get('lastID_reminder'); i++) {
             let reminder = store.get(`reminder_${i}`);
+            reminder['weekdays'] = JSON.parse(store.get(`reminder_${i}.weekdays`));
             storedReminder.push(reminder);
-            console.log(storedReminder)
         }
 
         items_reminders = storedReminder.map(({ name, time, text, weekdays }) => ({
@@ -143,14 +145,14 @@ function render(newTray = tray) {
                     label: `text: ${text}`
                 },
                 {
-                    label: `weekdays: ${weekdays}`
+                    label: 'weekdays',
+                    submenu: weekdays.map((w) => ({
+                        label: w
+                    }))
                 }
             ]
         }));
     }
-
-    //const alarms = storedAlarms ? JSON.parse(storedAlarms) : [];
-    //const reminders = storedReminders ? JSON.parse(storedReminders) : [];
 
     const contextMenu = Menu.buildFromTemplate([
         {
