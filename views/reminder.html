@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../public/css/reminder.css">
+</head>
+<body>
+    <div id="container">
+        <h1> Reminders </h1>
+        <form id="form">
+            <label for="name">Name: </label>
+            <input name="name" id="reminder_name" type="text" />
+
+            <hr />
+
+            <label for="text">Time: </label>
+            <textarea name="text" id="reminder_text" cols="15" rows="5">
+            </textarea>
+
+            <hr />
+
+            <label for="time">Time: </label>
+            <input name="time" id="reminder_time" type="time" />
+
+            <hr />
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <script src="./../public/js/reminder.js"></script>
+</body>
+</html>
