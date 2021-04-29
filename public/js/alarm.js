@@ -1,10 +1,13 @@
+const { ipcRenderer } = require('electron');
+
 let form = document.getElementById('form');
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    let name = document.getElementById('alarm_name').value;
-    let time = document.getElementById('alarm_time').value;
+    let alarm = {
+        name: document.getElementById('alarm_name').value,
+        time: document.getElementById('alarm_time').value
+    };
 
-    console.log(name);
-    console.log(time);
+    ipcRenderer.send('create-alarm', alarm);
 })

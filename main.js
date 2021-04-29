@@ -1,4 +1,4 @@
-const { app, Menu, Tray, BrowserWindow } = require('electron');
+const { app, Menu, Tray, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
 
@@ -15,7 +15,9 @@ const windowConfig = {
     //resizable: false,
     webPreferences: {
         backgroundThrottling: false,
-        preload: path.join(__dirname, 'preload.js')
+        preload: path.join(__dirname, 'preload.js'),
+        nodeIntegration: true,
+        contextIsolation: false
     }
 };
 
@@ -95,22 +97,6 @@ function createWindow_reminder() {
         }
     });
 }
-
-// function showWindow() {
-//     const position = getWindowPosition();
-//     window.setPosition(position.x, position.y, false);
-
-//     window.show();
-//     window.focus();
-// }
-
-// function toggleWindow() {
-//     if (window.isVisible()) {
-//         window.hide();
-//     } else {
-//         showWindow();
-//     }
-// }
 
 function render(newTray = tray) {
     const storedAlarms = store.get('alarms');
@@ -194,3 +180,11 @@ app.on('window-all-closed', () => {
         app.quit()
     }
 })
+
+ipcMain.on('create-alarm', async (event, alarm) => {
+    console.log(alarm);
+});
+
+ipcMain.on('create-reminder', async (event, reminder) => {
+    console.log(reminder);
+});
