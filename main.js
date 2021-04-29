@@ -99,40 +99,58 @@ function createWindow_reminder() {
 }
 
 function render(newTray = tray) {
-    const storedAlarms = store.get('alarms');
-    const storedReminders = store.get('reminders');
+    console.log('hi');
+    let storedAlarm = [];
+    let storedReminder = [];
 
-    const alarms = storedAlarms ? JSON.parse(storedAlarms) : [];
-    const reminders = storedReminders ? JSON.parse(storedReminders) : [];
+    let items_alarms = [];
+    let items_reminders = [];
 
-    const items_alarms = alarms.map(({ name, time, weekdays }) => ({
-        label: name,
-        submenu: [
-            {
-                label: `time: ${time}`
-            },
-            {
-                label: `weekdays: ${weekdays}`
-            }
-        ]
-    }));
+    if (store.get('lastID_alarm') !== undefined) {
+        for (let i = 0; i <= store.get('lastID_alarm'); i++) {
+            let alarm = store.get(`alarm_${i}`);
+            storedAlarm.push(alarm);
+            console.log(storedAlarm)
+        }
 
-    const items_reminders = reminders.map(({ name, time, text, weekdays }) => ({
-        label: name,
-        submenu: [
-            {
-                label: `time: ${time}`
-            },
-            {
-                label: 'text', click: () => {
-                    console.log('my_text_reminder', text);
+        items_alarms = storedAlarm.map(({ name, time, weekdays }) => ({
+            label: name,
+            submenu: [
+                {
+                    label: `time: ${time}`
+                },
+                {
+                    label: `weekdays: ${weekdays}`
                 }
-            },
-            {
-                label: `weekdays: ${weekdays}`
-            }
-        ]
-    }));
+            ]
+        }));
+    }
+
+    if (store.get('lastID_reminder') !== undefined) {
+        for (let i = 0; i <= store.get('lastID_reminder'); i++) {
+            let reminder = store.get(`reminder_${i}`);
+            storedReminder.push(reminder);
+            console.log(storedReminder)
+        }
+
+        items_reminders = storedReminder.map(({ name, time, text, weekdays }) => ({
+            label: name,
+            submenu: [
+                {
+                    label: `time: ${time}`
+                },
+                {
+                    label: `text: ${text}`
+                },
+                {
+                    label: `weekdays: ${weekdays}`
+                }
+            ]
+        }));
+    }
+
+    //const alarms = storedAlarms ? JSON.parse(storedAlarms) : [];
+    //const reminders = storedReminders ? JSON.parse(storedReminders) : [];
 
     const contextMenu = Menu.buildFromTemplate([
         {
@@ -184,13 +202,13 @@ app.on('window-all-closed', () => {
 ipcMain.on('create-alarm', async (event, alarm) => {
     id = store.get('lastID_alarm') == undefined ? 0 : store.get('lastID_alarm') + 1;
     store.set('lastID_alarm', id);
-    
+
     store.set(`alarm_${id}`, alarm);
 });
 
 ipcMain.on('create-reminder', async (event, reminder) => {
     id = store.get('lastID_reminder') == undefined ? 0 : store.get('lastID_reminder') + 1;
     store.set('lastID_reminder', id);
-    
+
     store.set(`reminder_${id}`, reminder);
 });
