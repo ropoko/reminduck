@@ -182,9 +182,15 @@ app.on('window-all-closed', () => {
 })
 
 ipcMain.on('create-alarm', async (event, alarm) => {
-    console.log(alarm);
+    id = store.get('lastID_alarm') == undefined ? 0 : store.get('lastID_alarm') + 1;
+    store.set('lastID_alarm', id);
+    
+    store.set(`alarm_${id}`, alarm);
 });
 
 ipcMain.on('create-reminder', async (event, reminder) => {
-    console.log(reminder);
+    id = store.get('lastID_reminder') == undefined ? 0 : store.get('lastID_reminder') + 1;
+    store.set('lastID_reminder', id);
+    
+    store.set(`reminder_${id}`, reminder);
 });

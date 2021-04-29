@@ -5,9 +5,9 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
 
     let alarm = {
-        name: document.getElementById('alarm_name').value,
+        name: document.getElementById('alarm_name').value.trim(),
         time: document.getElementById('alarm_time').value
     };
 
     ipcRenderer.send('create-alarm', alarm);
-})
+});
