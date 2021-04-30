@@ -206,6 +206,7 @@ ipcMain.on('create-alarm', async (event, alarm) => {
     store.set('lastID_alarm', id);
 
     store.set(`alarm_${id}`, alarm);
+    render(tray);
 });
 
 ipcMain.on('create-reminder', async (event, reminder) => {
@@ -213,4 +214,5 @@ ipcMain.on('create-reminder', async (event, reminder) => {
     store.set('lastID_reminder', id);
 
     store.set(`reminder_${id}`, reminder);
+    render(tray);
 });
