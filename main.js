@@ -1,6 +1,7 @@
 const { app, Menu, Tray, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
+const fs = require('fs');
 
 let tray;
 let window;
@@ -107,9 +108,12 @@ function render(newTray = tray) {
 
     if (store.get('lastID_alarm') !== undefined) {
         for (let i = 0; i <= store.get('lastID_alarm'); i++) {
-            let alarm = store.get(`alarm_${i}`);
-            alarm['weekdays'] = JSON.parse(store.get(`alarm_${i}.weekdays`));
-            storedAlarm.push(alarm);
+            if (store.get(`alarm_${i}`) !== undefined) {
+                let alarm = store.get(`alarm_${i}`);
+                alarm['weekdays'] = JSON.parse(store.get(`alarm_${i}.weekdays`));
+
+                storedAlarm.push(alarm);
+            }
         }
 
         items_alarms = storedAlarm.map(({ name, time, weekdays }) => ({
@@ -123,6 +127,31 @@ function render(newTray = tray) {
                     submenu: weekdays.map((w) => ({
                         label: w
                     }))
+                },
+                {
+                    label: 'Remove', click: () => {
+                        for (let i = 0; i <= store.get('lastID_alarm'); i++) {
+                            if (store.get(`alarm_${i}`) !== undefined) {
+                                let get_item = [store.get(`alarm_${i}`)].filter(item => item.name == name);
+
+                                let item_name = get_item[0] !== undefined ? get_item[0].name : undefined;
+
+                                [store.get(`alarm_${i}.name`)].every((name) => {
+                                    if (item_name === undefined) return;
+
+                                    else {
+                                        if (name == item_name) {
+                                            let index = i;
+
+                                            store.delete(`alarm_${index}`);
+                                            render(tray);
+                                            return;
+                                        };
+                                    }
+                                });
+                            }
+                        }
+                    }
                 }
             ]
         }));
@@ -132,8 +161,11 @@ function render(newTray = tray) {
         for (let i = 0; i <= store.get('lastID_reminder'); i++) {
             let reminder = store.get(`reminder_${i}`);
             reminder['weekdays'] = JSON.parse(store.get(`reminder_${i}.weekdays`));
+
             storedReminder.push(reminder);
         }
+
+        //console.log(storedReminder)
 
         items_reminders = storedReminder.map(({ name, time, text, weekdays }) => ({
             label: name,
@@ -149,6 +181,11 @@ function render(newTray = tray) {
                     submenu: weekdays.map((w) => ({
                         label: w
                     }))
+                },
+                {
+                    label: 'Remove', click: () => {
+                        console.log('oi')
+                    }
                 }
             ]
         }));
