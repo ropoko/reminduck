@@ -129,6 +129,9 @@ function render(newTray = tray) {
                     }))
                 },
                 {
+                    type: 'separator'
+                },
+                {
                     label: 'Remove', click: () => {
                         for (let i = 0; i <= store.get('lastID_alarm'); i++) {
                             if (store.get(`alarm_${i}`) !== undefined) {
@@ -159,13 +162,13 @@ function render(newTray = tray) {
 
     if (store.get('lastID_reminder') !== undefined) {
         for (let i = 0; i <= store.get('lastID_reminder'); i++) {
-            let reminder = store.get(`reminder_${i}`);
-            reminder['weekdays'] = JSON.parse(store.get(`reminder_${i}.weekdays`));
+            if (store.get(`reminder_${i}`) !== undefined) {
+                let reminder = store.get(`reminder_${i}`);
+                reminder['weekdays'] = JSON.parse(store.get(`reminder_${i}.weekdays`));
 
-            storedReminder.push(reminder);
+                storedReminder.push(reminder);
+            }
         }
-
-        //console.log(storedReminder)
 
         items_reminders = storedReminder.map(({ name, time, text, weekdays }) => ({
             label: name,
@@ -183,8 +186,31 @@ function render(newTray = tray) {
                     }))
                 },
                 {
+                    type: 'separator'
+                },
+                {
                     label: 'Remove', click: () => {
-                        console.log('oi')
+                        for (let i = 0; i <= store.get('lastID_reminder'); i++) {
+                            if (store.get(`reminder_${i}`) !== undefined) {
+                                let get_item = [store.get(`reminder_${i}`)].filter(item => item.name == name);
+
+                                let item_name = get_item[0] !== undefined ? get_item[0].name : undefined;
+
+                                [store.get(`reminder_${i}.name`)].every((name) => {
+                                    if (item_name === undefined) return;
+
+                                    else {
+                                        if (name == item_name) {
+                                            let index = i;
+
+                                            store.delete(`reminder_${index}`);
+                                            render(tray);
+                                            return;
+                                        };
+                                    }
+                                });
+                            }
+                        }
                     }
                 }
             ]
