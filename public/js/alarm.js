@@ -3,13 +3,12 @@ const { ipcRenderer } = require('electron');
 let weekdays_selected = [];
 
 let buttons_weekdays = document.getElementsByClassName('weekdays');
-
 for (let i = 0; i < buttons_weekdays.length; i++) {
     [buttons_weekdays].forEach(element => {
         element[i].addEventListener('click', () => {
             if (element[i].style.color == 'red') {
                 element[i].style.color = 'black';
-                
+
                 let index = weekdays_selected.indexOf(element[i].value);
                 weekdays_selected.splice(index, 1);
             } else {

@@ -1,7 +1,6 @@
-const { app, Menu, Tray, BrowserWindow, ipcMain } = require('electron');
+const { app, Menu, Tray, BrowserWindow, ipcMain, Notification } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
-const fs = require('fs');
 
 let tray;
 let window;
@@ -22,9 +21,7 @@ const windowConfig = {
     }
 };
 
-if (app.dock) {
-    app.dock.hide(); // hide app in dock on MAC
-}
+if (app.dock) app.dock.hide(); // hide app in dock on MAC
 
 const store = new Store({
     alarms: {
@@ -71,7 +68,6 @@ function createWindow_alarm() {
     window = new BrowserWindow(windowConfig);
 
     window.loadURL(`file://${path.join(__dirname, 'views/alarm.html')}`);
-    //window.webContents.openDevTools();
 
     const position = getWindowPosition();
     window.setPosition(position.x, position.y, false);
@@ -87,7 +83,6 @@ function createWindow_reminder() {
     window = new BrowserWindow(windowConfig);
 
     window.loadURL(`file://${path.join(__dirname, 'views/reminder.html')}`);
-    //window.webContents.openDevTools();
 
     const position = getWindowPosition();
     window.setPosition(position.x, position.y, false);
@@ -252,10 +247,81 @@ function render(newTray = tray) {
     newTray.setContextMenu(contextMenu);
 }
 
+function notificationAlarm() {
+    if (store.get('lastID_alarm') !== undefined) {
+        for (let i = 0; i <= store.get('lastID_alarm'); i++) {
+            if (store.get(`alarm_${i}`) !== undefined) {
+                let alarm = store.get(`alarm_${i}`);
+                alarm['weekdays'] = JSON.parse(store.get(`alarm_${i}.weekdays`));
+
+                var d = new Date();
+                let weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+
+                if (alarm['weekdays'].includes(weekday[d.getDay()])) {
+                    let hour_alarm = new Date().setTime(alarm.time.split(':')[0]);
+                    let minute_alarm = new Date().setTime(alarm.time.split(':')[1]);
+
+                    let current_hour = new Date().getHours();
+                    let current_minute = new Date().getMinutes();
+
+                    if (current_hour == hour_alarm) {
+                        if (current_minute == minute_alarm) {
+                            _ = new Notification({
+                                title: alarm.name,
+                                urgency: 'normal',
+                                sound: path.join(__dirname, 'assets/quack.mp3')
+                            }).show();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    setTimeout(notificationAlarm, 40000);
+}
+
+function notificationReminder() {
+    if (store.get('lastID_reminder') !== undefined) {
+        for (let i = 0; i <= store.get('lastID_reminder'); i++) {
+            if (store.get(`reminder_${i}`) !== undefined) {
+                let reminder = store.get(`reminder_${i}`);
+                reminder['weekdays'] = JSON.parse(store.get(`reminder_${i}.weekdays`));
+
+                var d = new Date();
+                let weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+
+                if (reminder['weekdays'].includes(weekday[d.getDay()])) {
+                    let hour_reminder = new Date().setTime(reminder.time.split(':')[0]);
+                    let minute_reminder = new Date().setTime(reminder.time.split(':')[1]);
+
+                    let current_hour = new Date().getHours();
+                    let current_minute = new Date().getMinutes();
+
+                    if (current_hour == hour_reminder) {
+                        if (current_minute == minute_reminder) {
+                            _ = new Notification({
+                                title: reminder.name,
+                                body: reminder.text,
+                                urgency: 'normal',
+                                sound: path.join(__dirname, 'assets/quack.mp3')
+                            }).show();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    setTimeout(notificationReminder, 40000);
+}
+
 app.whenReady().then(() => {
     tray = new Tray(path.join(__dirname, 'assets/iconTemplate.png'));
 
     render(tray);
+    notificationAlarm();
+    notificationReminder();
 });
 
 app.on('window-all-closed', () => {
