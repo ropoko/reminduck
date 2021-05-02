@@ -269,7 +269,8 @@ function notificationAlarm() {
                             _ = new Notification({
                                 title: alarm.name,
                                 urgency: 'normal',
-                                sound: path.join(__dirname, 'assets/quack.mp3')
+                                sound: path.join(__dirname, 'assets/quack.mp3'),
+                                icon: path.join(__dirname, 'assets/icon.png')
                             }).show();
                         }
                     }
@@ -304,7 +305,8 @@ function notificationReminder() {
                                 title: reminder.name,
                                 body: reminder.text,
                                 urgency: 'normal',
-                                sound: path.join(__dirname, 'assets/quack.mp3')
+                                sound: path.join(__dirname, 'assets/quack.mp3'),
+                                icon: path.join(__dirname, 'assets/icon.png')
                             }).show();
                         }
                     }
