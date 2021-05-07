@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "main": "main.js",
   "license": "MIT",
+  "author": "Ropoko",
+  "description": "Quack!",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --windows",
+    "dist:linux": "electron-builder --linux"
   },
   "dependencies": {
     "electron-store": "^8.0.0"
@@ -17,6 +22,20 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "build": {
-
+    "files": ["**/*", "assets/icon.*"],
+    "appId": "com.ropoko.reminduck",
+    "productName": "Reminduck",
+    "mac": {
+      "category": "public.app-category.utility",
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "category": "Utility",
+      "icon": "icon.png",
+      "target": ["deb", "rpm"]
+    },
+    "win": {
+      "icon": "assets/icon.png"
+    }
   }
 }

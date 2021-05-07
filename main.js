@@ -319,7 +319,7 @@ function notificationReminder() {
 }
 
 app.whenReady().then(() => {
-    tray = new Tray(path.join(__dirname, 'assets/iconTemplate.png'));
+    tray = new Tray(path.join(__dirname, 'assets/icon.png'));
 
     render(tray);
     notificationAlarm();
