@@ -9,10 +9,11 @@ const windowConfig = {
     width: 300,
     height: 450,
     show: true,
-    //frame: false,
+    frame: false,
     titleBarStyle: 'hidden', // equivalent to frame false on MAC
-    //fullscreenable: false,
-    //resizable: false,
+    fullscreenable: false,
+    resizable: false,
+    transparent: true,
     webPreferences: {
         backgroundThrottling: false,
         preload: path.join(__dirname, 'preload.js'),
