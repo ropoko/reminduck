@@ -22,7 +22,7 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "build": {
-    "files": ["**/*", "assets/icon.*"],
+    "files": ["**/*", "assets/icon.png", "assets/quack.mp3"],
     "appId": "com.ropoko.reminduck",
     "productName": "Reminduck",
     "mac": {

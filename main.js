@@ -320,6 +320,10 @@ function notificationReminder() {
 }
 
 app.whenReady().then(() => {
+    if (process.platform === 'win32') {
+        app.setAppUserModelId("Reminduck")
+    }
+
     tray = new Tray(path.join(__dirname, 'assets/icon.png'));
 
     render(tray);
