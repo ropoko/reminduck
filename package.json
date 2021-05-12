@@ -5,6 +5,7 @@
   "license": "MIT",
   "author": "Ropoko",
   "description": "Quack!",
+  "email": "rodrigostramantinoli@gmail.com",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
@@ -32,7 +33,7 @@
     "linux": {
       "category": "Utility",
       "icon": "icon.png",
-      "target": ["deb", "rpm"]
+      "target": ["tar.gz"]
     },
     "win": {
       "icon": "assets/icon.png"
