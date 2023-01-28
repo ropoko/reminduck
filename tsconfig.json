@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+		"outDir": "dist",
+    "target": "es2016",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "skipLibCheck": true,
+		"allowJs": true
+  },
+	"include": ["*.ts"],
+	"exclude": ["node_modules"]
+}

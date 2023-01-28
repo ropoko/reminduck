@@ -1,5 +1,5 @@
 {
-  "name": "reminduck-tray",
+  "name": "reminduck",
   "version": "1.0.0",
   "main": "main.js",
   "license": "MIT",
@@ -7,19 +7,16 @@
   "description": "Quack!",
   "email": "rodrigostramantinoli@gmail.com",
   "scripts": {
-    "start": "electron .",
+    "start": "tsc && cp index.html dist/ && electron ./dist/",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "dist:mac": "electron-builder --mac",
     "dist:win": "electron-builder --windows",
     "dist:linux": "electron-builder --linux"
   },
-  "dependencies": {
-    "electron-store": "^8.0.0"
-  },
   "devDependencies": {
-    "electron": "^12.0.5",
-    "electron-builder": "^22.10.5"
+    "electron": "^22.0.3",
+    "electron-builder": "^23.6.0"
   },
   "build": {
     "files": [
@@ -45,5 +42,8 @@
     "win": {
       "icon": "assets/icon.png"
     }
+  },
+  "dependencies": {
+    "typescript": "^4.9.4"
   }
 }
